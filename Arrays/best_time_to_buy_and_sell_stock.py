@@ -34,16 +34,16 @@ https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
 
 
 def max_profit(prices: List[int]) -> int:
-    min_price = prices[0]
     max_prof = 0
+    curr_min = prices[0]
 
-    for each_price in prices[1:]:
-        max_prof = max(each_price-min_price, max_prof)
-        min_price = min(each_price, min_price)
+    for i in prices:
+        curr_min = min(curr_min, i)
+        max_prof = max(max_prof, i - curr_min)
 
     return max_prof
 
 
 if __name__ == "__main__":
-    prices = [7]
+    prices = [7,1,5,3,6,4]
     print(max_profit(prices))

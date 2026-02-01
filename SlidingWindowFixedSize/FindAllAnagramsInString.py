@@ -82,6 +82,20 @@ def find_anagrams(s: str, p:str) -> List[int]:
 
 """
 
+def compare_dict(dict1: Dict, dict2: Dict) -> bool:
+    if dict1.keys() != dict2.keys():
+        return False
+
+    for key, value in dict1.items():
+        if key not in dict2:
+            return False
+
+        if value != dict2[key]:
+            return False
+
+
+    return True
+
 
 def find_anagrams(s: str, p:str) -> List[int]:
     if len(p) > len(s):
@@ -96,7 +110,7 @@ def find_anagrams(s: str, p:str) -> List[int]:
     for i in range(len(p)):
         char_count_map_target[p[i]] = char_count_map_target.get(p[i], 0) + 1
 
-    if char_count_map_source == char_count_map_source:
+    if compare_dict(char_count_map_source,char_count_map_target):
         anagrams.append(0)
 
     for i in range(len(p), len(s)):
@@ -108,7 +122,7 @@ def find_anagrams(s: str, p:str) -> List[int]:
             char_count_map_source[curr_char] = char_count_map_source[curr_char] - 1
 
         char_count_map_source[s[i]] = char_count_map_source.get(s[i], 0) + 1
-        if char_count_map_source == char_count_map_target:
+        if compare_dict(char_count_map_source, char_count_map_target):
             anagrams.append(i-(len(p)-1))
 
     return anagrams

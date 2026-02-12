@@ -1,4 +1,5 @@
 from typing import Optional
+from utils.list_node import ListNode, ListBuilder
 
 """
 DIFFICULTY: EASY
@@ -25,11 +26,6 @@ The number of nodes in the list is in the range [1, 100].
 
 """
 
-class ListNode:
-    def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
-
 
 def middle_node(head: Optional[ListNode]) -> Optional[ListNode]:
     fast = head
@@ -39,3 +35,10 @@ def middle_node(head: Optional[ListNode]) -> Optional[ListNode]:
         fast = fast.next.next
 
     return slow
+
+if __name__ == "__main__":
+    values = [1,2,3,4,5]
+    head: ListNode = ListBuilder.build_list(values)
+    head.print_list()
+    middle = middle_node(head)
+    middle.print_list()

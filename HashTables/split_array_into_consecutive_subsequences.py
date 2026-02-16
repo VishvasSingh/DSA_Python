@@ -50,6 +50,7 @@ nums is sorted in non-decreasing order.
 
 def is_possible(nums: List[int]) -> bool:
     pass
+    # todo: complete this !!!
 
 
 if __name__ == "__main__":

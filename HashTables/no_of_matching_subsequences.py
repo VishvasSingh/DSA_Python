@@ -1,4 +1,5 @@
 from typing import List
+from collections import defaultdict
 
 """
 DIFFICULTY: MEDIUM
@@ -70,20 +71,49 @@ def num_matching_subseq(s: str, words: List[str]) -> int:
 """
 
 def num_matching_subseq(s: str, words: List[str]) -> int:
-    char_buckets = {}
-    for word in words:
-        if word[0] in char_buckets:
-            char_buckets[word[0]].append(word)
-        else:
-            char_buckets[word[0]] = [word]
+    # 1. Create buckets for words waiting for specific characters
+    # Key: character, Value: list of word iterators waiting for this char
+    waiting_list = defaultdict(list)
 
+    # 2. Initialize: Put every word in the bucket of its first character
+    for word in words:
+        it = iter(word)
+        try:
+            char = next(it)
+            waiting_list[char].append(it)
+
+        except StopIteration:
+            continue # Skip empty words if any
+
+    count = 0
+
+    # 3. Process the string s once
     for char in s:
-        pass
-        # TODO: Complete the optimized solution
+        # Get the list of words waiting for this specific character 'char'
+        # We must reassign to [] because we are about to process them all
+        curr_char_words_iterators = waiting_list[char]
+        waiting_list[char] = []
+
+        for word_it in curr_char_words_iterators:
+            try:
+                # Advance the iterator to the next character
+                next_char = next(word_it)
+                # Move this word to the bucket of the next character it needs
+                waiting_list[next_char].append(word_it)
+
+            except StopIteration:
+                # If StopIteration is raised, the word is fully consumed!
+                count += 1
+
+    return count
+
+
 
 
 
 if __name__ == "__main__":
-    s = "dsahjpjauf"
-    words = ["ahjpjau","ja","ahbwzgqnuk","tnmlanowax"]
+    # s = "dsahjpjauf"
+    # words = ["ahjpjau","ja","ahbwzgqnuk","tnmlanowax"]
+    words = ["a","bb","acd","ace"]
+    s = "abcde"
     print(num_matching_subseq(s, words))
